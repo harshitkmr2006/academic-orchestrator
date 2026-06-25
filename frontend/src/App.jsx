@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ListTodo, Target, AlertTriangle, GraduationCap, Calendar, BarChart2, Award, BrainCircuit, LogOut, User } from 'lucide-react';
+import { ListTodo, Target, AlertTriangle, GraduationCap, Calendar, BarChart2, Award, BrainCircuit, LogOut, User, Clock } from 'lucide-react';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import TaskForm from './components/TaskForm';
@@ -11,6 +11,7 @@ import PlacementPrep from './components/PlacementPrep';
 import StudyCalendar from './components/StudyCalendar';
 import StudyTracker from './components/StudyTracker';
 import AIEngine from './components/AIEngine';
+import PomodoroTimer from './components/PomodoroTimer';
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -276,7 +277,8 @@ export default function App() {
           { id: 'planner', label: 'Study Planner', icon: ListTodo },
           { id: 'tracker', label: 'Hours Tracker', icon: BarChart2 },
           { id: 'placement', label: 'Placement Prep', icon: Award },
-          { id: 'ai', label: 'Gemini Advisor', icon: BrainCircuit }
+          { id: 'ai', label: 'Gemini Advisor', icon: BrainCircuit },
+          { id: 'focus', label: 'Focus Timer', icon: Clock }
         ].map((tab) => {
           const TabIcon = tab.icon;
           return (
@@ -423,6 +425,16 @@ export default function App() {
             </div>
             <div style={{ height: '1rem' }}></div>
             <AIEngine tasks={tasks} />
+          </div>
+        )}
+
+        {activeTab === 'focus' && (
+          <div className="workspace-tab-fade" style={{ maxWidth: '600px', margin: '0 auto' }}>
+            <div className="section-header">
+              <h2>Focus Pomodoro</h2>
+            </div>
+            <div style={{ height: '1rem' }}></div>
+            <PomodoroTimer />
           </div>
         )}
       </main>
