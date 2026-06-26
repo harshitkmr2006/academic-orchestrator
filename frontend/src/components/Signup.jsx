@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { UserPlus, GraduationCap } from 'lucide-react';
 
+const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export default function Signup({ onSignupSuccess, switchToLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -30,7 +32,7 @@ export default function Signup({ onSignupSuccess, switchToLogin }) {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/auth/signup', {
+      const response = await fetch(`${API}/api/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -42,7 +44,6 @@ export default function Signup({ onSignupSuccess, switchToLogin }) {
         throw new Error(data.error || 'Failed to sign up.');
       }
 
-      // Save token & call parent success callback
       localStorage.setItem('token', data.token);
       onSignupSuccess(data.user);
     } catch (err) {
@@ -107,7 +108,12 @@ export default function Signup({ onSignupSuccess, switchToLogin }) {
         </form>
 
         <div className="auth-footer">
-          <p>Already have an account? <button onClick={switchToLogin} className="btn-link">Log In</button></p>
+          <p>
+            Already have an account?{' '}
+            <button onClick={switchToLogin} className="btn-link">
+              Log In
+            </button>
+          </p>
         </div>
       </div>
     </div>

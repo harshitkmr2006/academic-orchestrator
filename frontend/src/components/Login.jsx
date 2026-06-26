@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { LogIn, GraduationCap } from 'lucide-react';
 
+const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export default function Login({ onLoginSuccess, switchToSignup }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -9,6 +11,7 @@ export default function Login({ onLoginSuccess, switchToSignup }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!username.trim() || !password.trim()) {
       setError('Please enter both username and password.');
       return;
@@ -18,7 +21,7 @@ export default function Login({ onLoginSuccess, switchToSignup }) {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(`${API}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -30,7 +33,6 @@ export default function Login({ onLoginSuccess, switchToSignup }) {
         throw new Error(data.error || 'Failed to log in.');
       }
 
-      // Save token & call parent login success callback
       localStorage.setItem('token', data.token);
       onLoginSuccess(data.user);
     } catch (err) {
@@ -83,7 +85,12 @@ export default function Login({ onLoginSuccess, switchToSignup }) {
         </form>
 
         <div className="auth-footer">
-          <p>Don't have an account? <button onClick={switchToSignup} className="btn-link">Create Account</button></p>
+          <p>
+            Don't have an account?{' '}
+            <button onClick={switchToSignup} className="btn-link">
+              Create Account
+            </button>
+          </p>
         </div>
       </div>
     </div>
